@@ -30,8 +30,6 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
     
-    @Size(min = 1 , max = 100)
-    private String title;
     
     @Size(min = 1, max = 300)
     private String content;

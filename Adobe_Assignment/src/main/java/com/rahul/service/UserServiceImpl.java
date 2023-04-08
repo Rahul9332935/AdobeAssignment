@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rahul.dto.UserDTO;
 import com.rahul.exception.UserNotFoundException;
 import com.rahul.model.User;
 import com.rahul.repository.UserRepository;
@@ -35,17 +36,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUserById(Long userId, User user) throws UserNotFoundException {
+	public User updateUserById(Long userId, UserDTO userDto) throws UserNotFoundException {
 		User updatedUser= getUserById(userId);
 		
-		if(user.getName()!=null) {
-			updatedUser.setName(user.getName());
+		if(userDto.getUserName()!=null) {
+			updatedUser.setName(userDto.getUserName());
 		}
-		if(user.getEmail()!=null) {
-			updatedUser.setEmail(user.getEmail());
+		if(userDto.getUserEmail()!=null) {
+			updatedUser.setEmail(userDto.getUserEmail());
 		}
-		if(user.getBio()!=null) {
-			updatedUser.setBio(user.getBio());
+		if(userDto.getUserBio()!=null) {
+			updatedUser.setBio(userDto.getUserBio());
 		}
 		
 		userRepository.save(updatedUser);

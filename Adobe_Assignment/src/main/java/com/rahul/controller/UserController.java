@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rahul.dto.UserDTO;
 import com.rahul.exception.UserNotFoundException;
 import com.rahul.model.User;
 import com.rahul.service.UserService;
@@ -23,11 +24,19 @@ import com.rahul.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	/*
+	{
+    "name":"Rahul",
+    "email":"rahul123@gmail.com",
+    "bio":"java backend devloper"
+	}
+	 */
+	
 	
 	@PostMapping("/users")
 	public ResponseEntity<User> createUserHandler(@Valid @RequestBody User user) {
@@ -41,9 +50,9 @@ public class UserController {
 	}
 
 	@PutMapping("/users/{userId}")
-	public ResponseEntity<User> updateUserByIdHandler(@PathVariable Long userId, @RequestBody User user) throws UserNotFoundException {
+	public ResponseEntity<User> updateUserByIdHandler(@PathVariable Long userId, @RequestBody UserDTO userDto) throws UserNotFoundException {
 		
-		return new ResponseEntity<User>(userService.updateUserById(userId, user), HttpStatus.ACCEPTED);
+		return new ResponseEntity<User>(userService.updateUserById(userId, userDto), HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/users/{userId}")
