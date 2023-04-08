@@ -2,6 +2,9 @@ package com.rahul.model;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,8 +14,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Post {
 
 	@Id
@@ -22,23 +29,23 @@ public class Post {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private User user;
-
+    
+    @Size(min = 1 , max = 100)
+    private String title;
+    
     @Size(min = 1, max = 300)
     private String content;
 
-    @NotNull
+    
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @NotNull
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @PositiveOrZero
     private int likes;
 
-    public Post() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
 	
 	
 }
