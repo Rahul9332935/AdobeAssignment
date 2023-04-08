@@ -10,11 +10,11 @@ public interface UserService {
 	
 	public User createUser(User user);
 	
-	public User getUserById(Long userId);
+	public User getUserById(Long userId) throws UserNotFoundException;
 	
-	public User updateUserById(Long userId, User user);
+	public User updateUserById(Long userId, User user) throws UserNotFoundException ;
 	
-	public User deleteUserById(Long userId) throws UserNotFoundException;
+	public String deleteUserById(Long userId) throws UserNotFoundException;
 	
 	public Long getTotalNumberOfUser();
 	
