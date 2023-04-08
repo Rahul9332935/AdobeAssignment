@@ -27,6 +27,7 @@ public class PostServiceImpl implements PostService {
 		 else it throw exception and stop the program.
 		*/
 		User user= userService.getUserById(post.getUser().getId());
+		
 		return postRepository.save(post);
 	}
 
