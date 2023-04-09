@@ -74,7 +74,7 @@
 
                 <button type="submit">Update User</button>
             </form>
-            <p class="info2"></p>
+            <p id="info2"></p>
         </div>
     </div>
 </body>
@@ -88,22 +88,14 @@
         event.preventDefault();
 
         const updateUserformData = new FormData(updateUserform);
-
+        console.log(updateUserformData.get("name"));
         const uUser = {
             userName: updateUserformData.get("name"),
             userEmail: updateUserformData.get("email"),
             userBio: updateUserformData.get("bio")
         };
-        console.log(uUser)
         let userId = updateUserformData.get("userId");
 
-        // fetch(`https://adobeassignment-production.up.railway.app/users/${userId}`, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(uUser)
-        // })
         fetch(`https://adobeassignment-production.up.railway.app/users/${userId}`, {
             method: 'PUT',
             headers: {
@@ -113,20 +105,18 @@
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                info.innerText = null;
+                console.log('User updated:', data.name);
+                info2.innerText = null;
                 if (data.id == undefined) {
-                    info.append(data.message)
+                    info2.append(data.message)
                     alert(data.message)
                 } else {
-                    info.append("post created / post id =" + data.id)
-                    alert("post id -" + data.id)
+                    info2.append("user updated / user id =" + data.id)
+                    alert("user id -" + data.id)
                 }
-
-
-                form.reset();
+                userform.reset();
             })
-            .catch(error => console.error('Error creating post:', error));
+            .catch(error => console.error('Error updating user:', error));
     });
 
 

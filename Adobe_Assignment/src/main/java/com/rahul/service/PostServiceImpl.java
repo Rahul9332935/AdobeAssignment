@@ -52,7 +52,7 @@ public class PostServiceImpl implements PostService {
 		
 		Post existingPost =getPostById(postId);
 		
-		if(postDto.getPostContent()!=null) {
+		if(postDto.getPostContent()!=null && postDto.getPostContent().length()!=0 ) {
 			existingPost.setContent(postDto.getPostContent());
 		}
 		
