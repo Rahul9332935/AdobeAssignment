@@ -9,7 +9,7 @@
     <style>
         #createUser {
             margin: auto;
-            
+
             width: 200px;
             border: 1px solid black;
             padding: 10px;
@@ -95,9 +95,8 @@
             bio: formData.get("bio"),
         };
 
-        console.log(JSON.stringify(user))
 
-        fetch('http://localhost:8084/users', {
+        fetch('https://adobeassignment-production.up.railway.app/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -106,8 +105,8 @@
         })
             .then(response => response.json())
             .then(data => {
-                console.log('User created:', data);
-                alert("user created")
+                console.log('User created:', data.name);
+                alert(data)
                 form.reset();
             })
             .catch(error => console.error('Error creating user:', error));

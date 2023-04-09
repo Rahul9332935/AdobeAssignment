@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <Style>
+        #createPost {
+            margin: auto;
+            border: 1px solid black;
+            width: 220px;
+            padding: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 200px;
+            margin: auto;
+        }
+
+        label,
+        input,
+        textarea {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0062cc;
+        }
+    </Style>
+</head>
+
+<body>
+    <div id="createPost">
+        <form id="create-post-form">
+            <label for="user-id">User ID:</label>
+            <input type="text" id="user-id" name="user_id" required>
+
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>
+
+            <button type="submit">Create Post</button>
+        </form>
+
+    </div>
+</body>
+<script>
+    const form = document.getElementById('create-post-form');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        let userObj = {
+            id: formData.get("user-id")
+        }
+        let obj = {
+            "user": userObj,
+            "content": formData.get("content")
+        }
+        const response = await fetch('https://adobeassignment-production.up.railway.app/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj)
+        });
+
+        const data = await response.json();
+
+        console.log(data); // do something with the response data
+    });
+
+</script>
+
+</html>

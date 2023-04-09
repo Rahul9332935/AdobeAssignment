@@ -36,11 +36,11 @@ public class User {
     @Size(min = 1, max = 50)
     private String name;
 
-    @Email
+    @Email(message = "must be a well-formed email address and unique ")
     @Column(unique = true)
     private String email;
 
-    @Size(max = 200)
+    @Size(max = 200, message = "max length should be more then 200")
     private String bio;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
