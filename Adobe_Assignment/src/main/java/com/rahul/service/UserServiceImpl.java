@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUserById(Long userId, UserDTO userDto) throws UserNotFoundException {
 		User updatedUser= getUserById(userId);
-		System.out.println(updatedUser.toString());
 		
 		if(userDto.getUserName()!=null && userDto.getUserName().length()!=0) {
 			updatedUser.setName(userDto.getUserName());
