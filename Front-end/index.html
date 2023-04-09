@@ -6,110 +6,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style/createUser.css">
+    <link rel="stylesheet" href="style/createPost.css">
     <style>
-        #createUser {
-            margin: auto;
-
-            width: 200px;
+        #main {
+            padding: 20px;
             border: 1px solid black;
-            padding: 10px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
-        .heading {
-            padding-top: 0px;
-            text-align: center;
-        }
-
-        /* Apply a max-width to the form */
-        #createUserForm {
-            max-width: 250px;
-            margin: 0 auto;
-        }
-
-        /* Add some padding and margin to the form elements */
-        #createUserForm label,
-        #createUserForm input[type="text"],
-        #createUserForm input[type="email"],
-        #createUserForm button[type="submit"] {
-            display: block;
-            margin-bottom: 5px;
-            padding: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Make the button a block element and center it */
-        #createUserForm button[type="submit"] {
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* Apply some styles when the form elements are focused */
-        #createUserForm input[type="text"]:focus,
-        #createUserForm input[type="email"]:focus,
-        #createUserForm input[type="bio"] {
-            outline: none;
-            border-color: #6c63ff;
-
-        }
-
-        #createUserForm #bio {
-            width: 100%;
+        .warn {
+            color: red;
+            font-size: 11px;
         }
     </style>
 </head>
 
 <body>
-    <div id="createUser">
-        <h2 class="heading">Create User</h2>
-        <form id="createUserForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required maxlength="50">
+    <div id="main">
+        <div id="createUser">
+            <h2 class="h2T">Create User</h2>
+            <form id="createUserForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required maxlength="50">
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
 
-            <label for="bio">Bio:</label>
-            <textarea id="bio" name="bio"></textarea>
+                <label for="bio">Bio:</label>
+                <textarea id="bio" name="bio"></textarea>
 
-            <button type="submit">Create User</button>
-        </form>
+                <button type="submit">Create User</button>
+            </form>
+            <p id="info1"></p>
+        </div>
 
+        <div id="createPost">
+            <h2 class="h2T">Create Post</h2>
+            <form id="create-post-form">
+                <label for="user-id">User ID:</label>
+                <input type="text" id="user-id" name="user_id" required>
+
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" required></textarea>
+
+                <button type="submit">Create Post</button>
+            </form>
+            <p id="info"></p>
+        </div>
+        <div id="updateUser">
+            <h2 class="h2T">Update User </h2>
+            <p class="warn">*if you want to update anything then fill it otherwise keep field empty.*</p>
+            <form id="update-user-form">
+
+                <label for="userId">User Id:</label>
+                <input type="number" id="userId" name="userId" required>
+
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+                <label for="bio">Bio:</label>
+                <input type="text" id="bio" name="bio">
+
+                <button type="submit">Update User</button>
+            </form>
+            <p class="info2"></p>
+        </div>
     </div>
 </body>
+<script src="script/createPost.js"></script>
+<script src="script/createUser.js"></script>
+<script>
 
-</html>
-<Script>
-
-    const form = document.getElementById('createUserForm');
-    form.addEventListener('submit', event => {
+    const updateUserform = document.getElementById('update-user-form');
+    info2 = document.getElementById('info2')
+    updateUserform.addEventListener('submit', event => {
         event.preventDefault();
 
-        const formData = new FormData(form);
-        console.log(formData.get("name"));
-        const user = {
-            name: formData.get("name"),
-            email: formData.get("email"),
-            bio: formData.get("bio"),
+        const updateUserformData = new FormData(updateUserform);
+
+        const uUser = {
+            userName: updateUserformData.get("name"),
+            userEmail: updateUserformData.get("email"),
+            userBio: updateUserformData.get("bio")
         };
+        console.log(uUser)
+        let userId = updateUserformData.get("userId");
 
-
-        fetch('https://adobeassignment-production.up.railway.app/users', {
-            method: 'POST',
+        // fetch(`https://adobeassignment-production.up.railway.app/users/${userId}`, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(uUser)
+        // })
+        fetch(`https://adobeassignment-production.up.railway.app/users/${userId}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(user)
+            body: JSON.stringify(uUser)
         })
             .then(response => response.json())
             .then(data => {
-                console.log('User created:', data.name);
-                alert(data)
+                console.log(data)
+                info.innerText = null;
+                if (data.id == undefined) {
+                    info.append(data.message)
+                    alert(data.message)
+                } else {
+                    info.append("post created / post id =" + data.id)
+                    alert("post id -" + data.id)
+                }
+
+
                 form.reset();
             })
-            .catch(error => console.error('Error creating user:', error));
+            .catch(error => console.error('Error creating post:', error));
     });
 
-</Script>
+
+</script>
+
+</html>
