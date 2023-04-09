@@ -39,14 +39,14 @@ public class UserServiceImpl implements UserService {
 	public User updateUserById(Long userId, UserDTO userDto) throws UserNotFoundException {
 		User updatedUser= getUserById(userId);
 		System.out.println(updatedUser.toString());
-		System.out.println(userDto.getUserName()==null);
-		if(userDto.getUserName()!=null) {
+		
+		if(userDto.getUserName()!=null && userDto.getUserName().length()!=0) {
 			updatedUser.setName(userDto.getUserName());
 		}
-		if(userDto.getUserEmail()!=null) {
+		if(userDto.getUserEmail()!=null && userDto.getUserEmail().length()!=0 ) {
 			updatedUser.setEmail(userDto.getUserEmail());
 		}
-		if(userDto.getUserBio()!=null) {
+		if(userDto.getUserBio()!=null && userDto.getUserBio().length()!=0) {
 			updatedUser.setBio(userDto.getUserBio());
 		}
 		
