@@ -1,12 +1,9 @@
 package com.rahul.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +21,9 @@ import com.rahul.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("/users")
+@CrossOrigin
+//(origins = "http://127.0.0.1:5500")
 public class UserController {
 
 	@Autowired
@@ -38,38 +38,38 @@ public class UserController {
 	 */
 	
 	
-	@PostMapping("/users")
+	@PostMapping
 	public ResponseEntity<User> createUserHandler(@Valid @RequestBody User user) {
 		return new ResponseEntity<User>(userService.createUser(user), HttpStatus.OK);
 	}
 
-	@GetMapping("/users/{userId}")
+	@GetMapping("/{userId}")
 	public ResponseEntity<User> getUserByIdHandler(@PathVariable Long userId) throws UserNotFoundException {
 		
 		return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
 	}
 
-	@PutMapping("/users/{userId}")
+	/*
+	 {
+    "userName":null,
+    "userEmail":null,
+    "userBio":"crypto trader"
+	}
+	here we pass Dto class for updating user data.
+	 */
+	
+	@PutMapping("/{userId}")
 	public ResponseEntity<User> updateUserByIdHandler(@PathVariable Long userId, @RequestBody UserDTO userDto) throws UserNotFoundException {
 		
 		return new ResponseEntity<User>(userService.updateUserById(userId, userDto), HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("/users/{userId}")
+	@DeleteMapping("/{userId}")
 	public ResponseEntity<String> deleteUserByIdHandler(@PathVariable Long userId) throws UserNotFoundException {
 		
-		return new ResponseEntity<String>(userService.deleteUserById(userId), HttpStatus.OK);	}
-
-	@GetMapping("/analytics/users")
-	public ResponseEntity<Long> getTotalNumberOfUserHandler() {
-		
-		return new ResponseEntity<Long>(userService.getTotalNumberOfUser(), HttpStatus.OK);
+		return new ResponseEntity<String>(userService.deleteUserById(userId), HttpStatus.OK);	
 	}
 
-	 @GetMapping("/analytics/users/top-active")
-	public ResponseEntity<List<User>> getTopActiveUsersHandler() {
-		
-		return new ResponseEntity<List<User>>(userService.getTopActiveUsers(), HttpStatus.OK);
-	}
+	
 
 }

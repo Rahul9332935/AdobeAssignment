@@ -1,9 +1,11 @@
 package com.rahul.service;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rahul.dto.PostDTO;
 import com.rahul.exception.PostException;
 import com.rahul.exception.UserNotFoundException;
 import com.rahul.model.Post;
@@ -26,8 +28,11 @@ public class PostServiceImpl implements PostService {
 		here getting user if useid is correct then getUserById is not gonna throw exception
 		 else it throw exception and stop the program.
 		*/
+		System.out.println(post.toString());
 		User user= userService.getUserById(post.getUser().getId());
+		//Post post=new Post();
 		post.setUser(user);
+		//post.setContent(postDto.getPostContent());
 		return postRepository.save(post);
 	}
 
@@ -43,16 +48,16 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post updatePostById(long postId, Post post) throws PostException {
+	public Post updatePostById(long postId, PostDTO postDto) throws PostException {
 		
-		Post updatedPost =getPostById(postId);
+		Post existingPost =getPostById(postId);
 		
-		if(post.getContent()!=null) {
-			updatedPost.setContent(post.getContent());
+		if(postDto.getPostContent()!=null) {
+			existingPost.setContent(postDto.getPostContent());
 		}
 		
 		
-		return postRepository.save(post);
+		return postRepository.save(existingPost);
 	}
 
 	@Override
@@ -85,6 +90,18 @@ public class PostServiceImpl implements PostService {
 		post.setLikes(post.getLikes()-1);
 		
 		return postRepository.save(post);
+	}
+
+	@Override
+	public Long totalNumberOfPost() {
+		
+		return postRepository.countPosts();
+	}
+
+	@Override
+	public List<Post> top5MostLikedPosts() {
+		
+		return postRepository.findTop5MostLikedPosts();
 	}
 
 }

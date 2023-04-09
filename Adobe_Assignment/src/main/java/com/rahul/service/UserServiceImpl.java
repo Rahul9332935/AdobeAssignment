@@ -38,7 +38,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUserById(Long userId, UserDTO userDto) throws UserNotFoundException {
 		User updatedUser= getUserById(userId);
-		
+		System.out.println(updatedUser.toString());
+		System.out.println(userDto.getUserName()==null);
 		if(userDto.getUserName()!=null) {
 			updatedUser.setName(userDto.getUserName());
 		}
@@ -49,8 +50,8 @@ public class UserServiceImpl implements UserService {
 			updatedUser.setBio(userDto.getUserBio());
 		}
 		
-		userRepository.save(updatedUser);
-		return updatedUser;
+		
+		return userRepository.save(updatedUser);
 		
 	}
 
