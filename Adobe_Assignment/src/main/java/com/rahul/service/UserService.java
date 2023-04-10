@@ -17,6 +17,8 @@ public interface UserService {
 	
 	public String deleteUserById(Long userId) throws UserNotFoundException;
 	
+	public List<User> getAllUsers();
+	
 	public Long getTotalNumberOfUser();
 	
 	public List<User> getTopActiveUsers(); 

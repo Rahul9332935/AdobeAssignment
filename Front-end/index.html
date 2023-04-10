@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="style/createPost.css">
     <style>
         #main {
+            margin: auto;
+            /* width: 40%; */
             padding: 20px;
             border: 1px solid black;
             display: grid;
@@ -20,6 +22,10 @@
         .warn {
             color: red;
             font-size: 11px;
+        }
+
+        #post-form #content {
+            height: 170px;
         }
     </style>
 </head>
@@ -76,50 +82,65 @@
             </form>
             <p id="info2"></p>
         </div>
+        <div id="updatePost">
+            <h2 class="h2T">Update Post</h2>
+            <p class="warn">if you want to update the post then simply pass the post id and the content. make sure that
+                the post id not incorrect</p>
+            <form id="post-form">
+                <label for="postId">Post Id:</label>
+                <input type="number" id="postId" name="postId" required>
+
+                <label for="content">Content:</label>
+                <textarea id="content" name="content"></textarea>
+                <button type="submit">Update Post</button>
+            </form>
+
+        </div>
     </div>
 </body>
 <script src="script/createPost.js"></script>
 <script src="script/createUser.js"></script>
+<script src="script/updateUser.js"></script>
 <script>
+    let postForm = document.getElementById('post-form');
 
-    const updateUserform = document.getElementById('update-user-form');
-    info2 = document.getElementById('info2')
-    updateUserform.addEventListener('submit', event => {
+    postForm.addEventListener('submit', event => {
         event.preventDefault();
 
-        const updateUserformData = new FormData(updateUserform);
-        console.log(updateUserformData.get("name"));
-        const uUser = {
-            userName: updateUserformData.get("name"),
-            userEmail: updateUserformData.get("email"),
-            userBio: updateUserformData.get("bio")
-        };
-        let userId = updateUserformData.get("userId");
+        const updatePost = new FormData(postForm);
 
-        fetch(`https://adobeassignment-production.up.railway.app/users/${userId}`, {
+        const postDto = {
+            postContent: updatePost.get('content')
+        }
+
+        let postId = updatePost.get('postId');
+        console.log(postDto, postId);
+
+        fetch(`https://adobeassignment-production.up.railway.app/posts/${postId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(uUser)
+            body: JSON.stringify(postDto)
         })
             .then(response => response.json())
             .then(data => {
-                console.log('User updated:', data.name);
-                info2.innerText = null;
+                console.log(data)
+                info.innerText = null;
                 if (data.id == undefined) {
-                    info2.append(data.message)
+                    info.append(data.message)
                     alert(data.message)
                 } else {
-                    info2.append("user updated / user id =" + data.id)
-                    alert("user id -" + data.id)
+                    info.append("post updated/ post id =" + data.id)
+                    alert("post id -" + data.id)
                 }
-                userform.reset();
+
+
+                form.reset();
             })
-            .catch(error => console.error('Error updating user:', error));
-    });
+            .catch(error => console.error('Error creating post:', error));
 
-
+    })
 </script>
 
 </html>

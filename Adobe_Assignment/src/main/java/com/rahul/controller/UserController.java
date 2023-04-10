@@ -1,5 +1,7 @@
 package com.rahul.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +71,10 @@ public class UserController {
 		
 		return new ResponseEntity<String>(userService.deleteUserById(userId), HttpStatus.OK);	
 	}
-
 	
+	@GetMapping
+	public ResponseEntity<List<User>> getAllUsersHandler(){
+		return new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.OK);
+	}
 
 }

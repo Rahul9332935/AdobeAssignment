@@ -64,7 +64,10 @@ public class PostController{
 		
 		return new ResponseEntity<Post>(postService.unlikePost(postId), HttpStatus.OK);
 	}
-	
+	@GetMapping
+	public ResponseEntity<List<Post>> getAllPosts(){
+		return new ResponseEntity<List<Post>>(postService.getAllPost(), HttpStatus.OK);
+	}
 	
 
 }

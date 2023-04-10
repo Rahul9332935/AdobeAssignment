@@ -104,4 +104,10 @@ public class PostServiceImpl implements PostService {
 		return postRepository.findTop5MostLikedPosts();
 	}
 
+	@Override
+	public List<Post> getAllPost() {
+		
+		return postRepository.findAll();
+	}
+
 }

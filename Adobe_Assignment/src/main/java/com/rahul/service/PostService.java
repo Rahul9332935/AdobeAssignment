@@ -21,6 +21,8 @@ public interface PostService {
 	
 	public Post unlikePost(Long postId) throws PostException;
 	
+	public List<Post> getAllPost();
+	
 	public Long totalNumberOfPost();
 	
 	public List<Post> top5MostLikedPosts();
