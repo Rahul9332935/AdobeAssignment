@@ -1,0 +1,26 @@
+#main {
+    margin: auto;
+    /* width: 40%; */
+    padding: 20px;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.warn {
+    color: red;
+    font-size: 11px;
+}
+
+#post-form #content {
+    height: 170px;
+}
+@media only screen and (max-width: 600px){
+    #main{
+        display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    }   
+    
+}

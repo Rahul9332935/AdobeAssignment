@@ -8,29 +8,67 @@
     <title>Document</title>
     <link rel="stylesheet" href="style/createUser.css">
     <link rel="stylesheet" href="style/createPost.css">
+    <link rel="stylesheet" href="style/index.css">
     <style>
-        #main {
-            margin: auto;
-            /* width: 40%; */
-            padding: 20px;
+        /* #navbar {
             border: 1px solid black;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            background-color: teal;
+           justify-content: center;
+            height: 50px;
+            align-items: center;
+            text-align: center;
+
         }
 
-        .warn {
-            color: red;
-            font-size: 11px;
+        #navbar a {
+            border: 1px solid black;
+            margin: auto;
+            margin-left: 50px;
+            
+            background-color: white;
+            text-decoration: none;
+            color: black;
+        } */
+
+
+        /* Style the navbar */
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
         }
 
-        #post-form #content {
-            height: 170px;
+        /* Style the buttons */
+        .navbar button {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Change the background color of the button on hover */
+        .navbar button:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Style the active button */
+        .navbar button.active {
+            background-color: #4CAF50;
+            color: white;
         }
     </style>
 </head>
 
 <body>
+    <div class="navbar">
+        <button class="active"><a href="viewAlluserOrPost.html">View All Users/Posts</a></button>
+        <button><a href="analytics.html">Analytics</a></button>
+    </div>
     <div id="main">
         <div id="createUser">
             <h2 class="h2T">Create User</h2>
@@ -62,6 +100,7 @@
             </form>
             <p id="info"></p>
         </div>
+
         <div id="updateUser">
             <h2 class="h2T">Update User </h2>
             <p class="warn">*if you want to update anything then fill it otherwise keep field empty.*</p>
@@ -82,6 +121,7 @@
             </form>
             <p id="info2"></p>
         </div>
+
         <div id="updatePost">
             <h2 class="h2T">Update Post</h2>
             <p class="warn">if you want to update the post then simply pass the post id and the content. make sure that
@@ -101,46 +141,6 @@
 <script src="script/createPost.js"></script>
 <script src="script/createUser.js"></script>
 <script src="script/updateUser.js"></script>
-<script>
-    let postForm = document.getElementById('post-form');
-
-    postForm.addEventListener('submit', event => {
-        event.preventDefault();
-
-        const updatePost = new FormData(postForm);
-
-        const postDto = {
-            postContent: updatePost.get('content')
-        }
-
-        let postId = updatePost.get('postId');
-        console.log(postDto, postId);
-
-        fetch(`https://adobeassignment-production.up.railway.app/posts/${postId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(postDto)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                info.innerText = null;
-                if (data.id == undefined) {
-                    info.append(data.message)
-                    alert(data.message)
-                } else {
-                    info.append("post updated/ post id =" + data.id)
-                    alert("post id -" + data.id)
-                }
-
-
-                form.reset();
-            })
-            .catch(error => console.error('Error creating post:', error));
-
-    })
-</script>
+<script src="script/updatePost.js"></script>
 
 </html>

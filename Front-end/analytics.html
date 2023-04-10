@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/viewAlluser.css">
+    <Style>
+        #analyticsPage {
+            border: 1px solid black;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        #user,
+        #post {
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        #user div,
+        #post div {
+            border: 1px solid black;
+        }
+    </Style>
+</head>
+
+<body>
+    <div id="analyticsPage">
+        <div id="user">
+            <h2 class="center">user Analytic</h2>
+            <div>
+                <p>Total Number of user</p>
+                <p id="numberOfUser"></p>
+            </div>
+            <div>
+                <h2>Top five most active user</h2>
+                <table id="userData">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- User data will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2 class="center"> Post Analytic</h2>
+            <div>
+                <p>total number of post</p>
+                <p id="numberOfPost"></p>
+            </div>
+            <div>
+                <h2>Top five Most like post</h2>
+                <table id="postTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Author Name</th>
+                            <th id="long">Content</th>
+                            <th>Likes</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    let userCount = document.getElementById('numberOfUser');
+    let postCount = document.getElementById('numberOfPost')
+
+    async function getTotalNumberOfUser() {
+        let res = await fetch('https://adobeassignment-production.up.railway.app/analytics/users');
+        let data = await res.json();
+        if (Response) {
+            userCount.innerText = data;
+        }
+
+    }
+
+    async function getTotalNumberOfpost() {
+        let res = await fetch('https://adobeassignment-production.up.railway.app/analytics/posts');
+        let data = await res.json();
+        if (Response) {
+            postCount.innerText = data
+        }
+
+    }
+
+    getTotalNumberOfUser();
+    getTotalNumberOfpost();
+    // -----------------------------------------------------------
+
+    const userApi = 'https://adobeassignment-production.up.railway.app/analytics/users/top-active';
+    async function topUser() {
+        let res = await fetch(userApi);
+        let data = await res.json();
+        if (Response) {
+            console.log(data)
+            show(data)
+
+        }
+    }
+
+    function show(data) {
+        console.log(data)
+        data.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td>${user.id}</td>
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+       `;
+            document.getElementById('userData').getElementsByTagName('tbody')[0].appendChild(row);
+        });
+    }
+    topUser();
+
+
+    // post
+
+    const postApi = 'https://adobeassignment-production.up.railway.app/analytics/posts/top-liked';
+    async function makerequest() {
+        let res = await fetch(postApi);
+        let data = await res.json();
+        if (Response) {
+            show(data)
+
+        }
+    }
+
+    function show(data) {
+        data.forEach(post => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+        <td>${post.id}</td>
+    <td>${post.user.name}</td>
+    <td>${post.content}</td>
+    <td>${post.likes}</td>
+   `;
+            document.getElementById('postTable').getElementsByTagName('tbody')[0].appendChild(row);
+        });
+    }
+    makerequest();
+
+</script>
